@@ -18,12 +18,17 @@ npm install --save forwarded-http
 
 ## API
 
-### forwarded(http.IncomingMessage)
+### forwarded(http.IncomingMessage[, options])
 
 ```js
 var forwarded = require('forwarded-http')
 
 var params = forwarded(req)
+
+// filter IP ranges
+var filteredParams = forwarded(req, {
+  filter: ['1.0.?.*', '2001:db8:*']
+})
 ```
 
 ### `.port`
@@ -31,8 +36,6 @@ var params = forwarded(req)
 The final proxied port before hitting this server
 
 ```js
-var forwarded = require('forwarded-http')
-
 var params = forwarded(req)
 
 params.port // '8000'
@@ -43,6 +46,8 @@ params.port // '8000'
 Oject with IPs as key with matching port used as value (if applicable) 
 
 ```js
+var params = forwarded(req)
+
 params.for // { '0.0.0.1': '8000', '0.0.0.2': '8001' }
 ```
 
@@ -51,6 +56,8 @@ params.for // { '0.0.0.1': '8000', '0.0.0.2': '8001' }
 The final proxied protocol before hitting this server
 
 ```js
+var params = forwarded(req)
+
 params.proto // 'https'
 ```
 
@@ -59,6 +66,8 @@ params.proto // 'https'
 The proxied host
 
 ```js
+var params = forwarded(req)
+
 arams.host // 'foo.com'
 ```
 
@@ -67,6 +76,8 @@ arams.host // 'foo.com'
 Array of ports the client is connected through
 
 ```js
+var params = forwarded(req)
+
 params.ports // ['8000', '8001']
 ```
 
@@ -75,6 +86,8 @@ params.ports // ['8000', '8001']
 Array of IP addresses the client is connected through
 
 ```js
+var params = forwarded(req)
+
 params.ips // ['0.0.0.1', '0.0.0.2']
 ```
 

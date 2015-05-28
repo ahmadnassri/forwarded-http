@@ -10,7 +10,7 @@ describe('RFC7239 Util', function () {
   it('Forwarded: for="_gazonk"', function (done) {
     var result = rfc7239('for="_gazonk"')
 
-    result.for.should.eql('_gazonk')
+    result.for.should.eql(['_gazonk'])
 
     done()
   })
@@ -18,7 +18,7 @@ describe('RFC7239 Util', function () {
   it('Forwarded: For="[2001:db8:cafe::17]:4711"', function (done) {
     var result = rfc7239('For="[2001:db8:cafe::17]:4711"')
 
-    result.for.should.eql('[2001:db8:cafe::17]:4711')
+    result.for.should.eql(['[2001:db8:cafe::17]:4711'])
 
     done()
   })
@@ -26,7 +26,7 @@ describe('RFC7239 Util', function () {
   it('Forwarded: for=192.0.2.60;proto=http;by=203.0.113.43', function (done) {
     var result = rfc7239('for=192.0.2.60;proto=http;by=203.0.113.43')
 
-    result.for.should.eql('192.0.2.60')
+    result.for.should.eql(['192.0.2.60'])
     result.proto.should.eql('http')
     result.by.should.eql('203.0.113.43')
 

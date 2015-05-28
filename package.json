@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "commander": "^2.8.1",
-    "debug": "^2.2.0"
+    "debug": "^2.2.0",
+    "ip-filter": "^1.0.0"
   }
 }

@@ -385,15 +385,22 @@ describe('Forwarded', function () {
       done()
     })
 
-    it('should parse "Forwarded: for=0.0.7.1:8007,For=0.0.7.2:8008,for=secret"', function (done) {
-      fixture.headers['forwarded'] = 'for=0.0.7.1:8007,For=0.0.7.2:8008,for=secret'
+    it('should parse "Forwarded: for=0.0.7.1:8007,For=0.0.7.2:8008,for=FE80::0202:B3FF:FE1E:8329,for=FE80:0000:0000:0000:0202:B3FF:FE1E:8329,for=secret"', function (done) {
+      fixture.headers['forwarded'] = 'for=0.0.7.1:8007,For=0.0.7.2:8008,for=FE80::0202:B3FF:FE1E:8329,for=FE80:0000:0000:0000:0202:B3FF:FE1E:8329,for=secret'
 
       var params = forwarded(fixture)
 
       params.port.should.equal('8000')
       params.ports.should.eql(['8000', '8007', '8008'])
-      params.ips.should.eql(['0.0.0.0', '0.0.7.1', '0.0.7.2', 'secret'])
-      params.for.should.eql({'0.0.0.0': '8000', '0.0.7.1': '8007', '0.0.7.2': '8008', 'secret': '8000'})
+      params.ips.should.eql(['0.0.0.0', '0.0.7.1', '0.0.7.2', 'FE80::0202:B3FF:FE1E:8329', 'FE80:0000:0000:0000:0202:B3FF:FE1E:8329', 'secret'])
+      params.for.should.eql({
+        '0.0.0.0': '8000',
+        '0.0.7.1': '8007',
+        '0.0.7.2': '8008',
+        'FE80::0202:B3FF:FE1E:8329': '8000',
+        'FE80:0000:0000:0000:0202:B3FF:FE1E:8329': '8000',
+        'secret': '8000'
+      })
 
       done()
     })
@@ -424,6 +431,44 @@ describe('Forwarded', function () {
       var params = forwarded(fixture)
 
       params.by.should.eql('1.0.0.0')
+
+      done()
+    })
+
+    it('should parse "Forwarded: for=secret"', function (done) {
+      fixture.headers['forwarded'] = 'for=secret'
+
+      var params = forwarded(fixture)
+
+      params.ips.should.eql(['0.0.0.0', 'secret'])
+      params.for.should.eql({ '0.0.0.0': '8000', secret: '8000' })
+
+      done()
+    })
+  })
+
+  describe('IP Filtering', function () {
+    it('should parse "Forwarded: for=0.0.8.1, for=0.0.8.2, for=2001:db8:cafe::17"', function (done) {
+      fixture.headers['forwarded'] = 'for=0.0.8.1, for=0.0.8.2, for=2001:db8:cafe::17'
+
+      var params = forwarded(fixture, {
+        filter: ['0.0.8.*']
+      })
+
+      params.ips.should.eql(['0.0.8.1', '0.0.8.2'])
+      params.for.should.eql({
+        '0.0.8.1': '8000',
+        '0.0.8.2': '8000'
+      })
+
+      params = forwarded(fixture, {
+        filter: ['2001:db8:*']
+      })
+
+      params.ips.should.eql(['2001:db8:cafe::17'])
+      params.for.should.eql({
+        '2001:db8:cafe::17': '8000'
+      })
 
       done()
     })
