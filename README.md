@@ -1,6 +1,8 @@
-# forwarded-http [![version][npm-version]][npm-url] [![License][npm-license]][license-url]
+# Forwarded HTTP [![version][npm-version]][npm-url] [![License][npm-license]][license-url]
 
-description
+Resolves [RFC 7239](https://tools.ietf.org/html/rfc7239) *(Forwarded HTTP Extension)*, with fallback to all legacy & special Forward headers: `X-Forwarded-*`, `X-Real-*`, `Fastly-Client-IP`, `X-Cluster-Client-IP`, and others.
+
+Focuses on resolving to the RFC standard and providing a consistent access to HTTP Forwarded Parameters: `by`, `for`, `host`, `proto`.
 
 [![Build Status][travis-image]][travis-url]
 [![Downloads][npm-downloads]][npm-url]
@@ -14,27 +16,32 @@ description
 npm install --save forwarded-http
 ```
 
-## Usage
-
-```
-
-  Usage: forwarded-http [options]
-
-  Options:
-
-    -h, --help     output usage information
-    -V, --version  output the version number
-
-```
-
 ## API
 
-### forwarded-http()
+### forwarded()
 
 ```js
-var forwarded-http = require('forwarded-http')
+var forwarded = require('forwarded-http')
 
-forwarded-http()
+var params = forwarded(req)
+
+// the final proxied port before hitting this server
+assert(params.port === '8000')
+
+// an object with IPs as key with matching port used as value (if applicable) 
+assert(params.for === { '0.0.0.1': '8000', '0.0.0.2': '8001' })
+
+// the final proxied protocol before hitting this server
+assert(params.proto === 'https')
+
+// the proxied host
+assert(params.host === 'foo.com')
+
+// array of ports the client is connected through
+assert(params.ports === ['8000', '8001'])
+
+// array of IP addresses the client is connected through
+assert(params.ips === ['0.0.0.1', '0.0.0.2'])
 ```
 
 ## Support

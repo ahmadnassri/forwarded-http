@@ -1,7 +1,7 @@
 {
   "version": "0.0.1",
   "name": "forwarded-http",
-  "description": "forwarded-http",
+  "description": "Resolves RFC 7239 / Forwarded HTTP Extension, with fallback to all legacy & special Forward headers: `X-Forwarded-*`, `X-Real-*` and others",
   "author": "Ahmad Nassri <ahmad@ahmadnassri.com> (https://www.ahmadnassri.com/)",
   "homepage": "https://github.com/ahmadnassri/forwarded-http",
   "repository": "ahmadnassri/forwarded-http",
