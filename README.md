@@ -18,7 +18,7 @@ npm install --save forwarded-http
 
 ## API
 
-### forwarded()
+### forwarded(http.IncomingMessage)
 
 ```js
 var forwarded = require('forwarded-http')
