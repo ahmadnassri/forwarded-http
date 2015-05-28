@@ -24,24 +24,58 @@ npm install --save forwarded-http
 var forwarded = require('forwarded-http')
 
 var params = forwarded(req)
+```
 
-// the final proxied port before hitting this server
-assert(params.port === '8000')
+### `.port`
 
-// an object with IPs as key with matching port used as value (if applicable) 
-assert(params.for === { '0.0.0.1': '8000', '0.0.0.2': '8001' })
+The final proxied port before hitting this server
 
-// the final proxied protocol before hitting this server
-assert(params.proto === 'https')
+```js
+var forwarded = require('forwarded-http')
 
-// the proxied host
-assert(params.host === 'foo.com')
+var params = forwarded(req)
 
-// array of ports the client is connected through
-assert(params.ports === ['8000', '8001'])
+params.port // '8000'
+```
 
-// array of IP addresses the client is connected through
-assert(params.ips === ['0.0.0.1', '0.0.0.2'])
+### `.for`
+
+Oject with IPs as key with matching port used as value (if applicable) 
+
+```js
+params.for // { '0.0.0.1': '8000', '0.0.0.2': '8001' }
+```
+
+### `.proto`
+
+The final proxied protocol before hitting this server
+
+```js
+params.proto // 'https'
+```
+
+### `.host`
+
+The proxied host
+
+```js
+arams.host // 'foo.com'
+```
+
+### `.ports`
+
+Array of ports the client is connected through
+
+```js
+params.ports // ['8000', '8001']
+```
+
+### `.ips`
+
+Array of IP addresses the client is connected through
+
+```js
+params.ips // ['0.0.0.1', '0.0.0.2']
 ```
 
 ## Support
