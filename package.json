@@ -1,0 +1,57 @@
+{
+  "version": "0.0.1",
+  "name": "forwarded-http",
+  "description": "forwarded-http",
+  "author": "Ahmad Nassri <ahmad@ahmadnassri.com> (https://www.ahmadnassri.com/)",
+  "homepage": "https://github.com/ahmadnassri/forwarded-http",
+  "repository": "ahmadnassri/forwarded-http",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "keywords": [
+    "cf-visitor",
+    "front-end-https",
+    "http",
+    "https",
+    "protocol",
+    "x-forwarded-for",
+    "x-forwarded-proto",
+    "x-forwarded-protocol",
+    "x-forwarded-ssl",
+    "x-url-scheme"
+  ],
+  "engines": {
+    "node": ">=0.10"
+  },
+  "files": [
+    "LICENSE.md",
+    "README.md",
+    "lib"
+  ],
+  "bugs": {
+    "url": "https://github.com/ahmadnassri/forwarded-http/issues"
+  },
+  "scripts": {
+    "pretest": "standard && echint",
+    "test": "mocha",
+    "posttest": "npm run coverage",
+    "coverage": "istanbul cover --dir coverage _mocha -- -R dot",
+    "codeclimate": "codeclimate < coverage/lcov.info"
+  },
+  "echint": {
+    "ignore": [
+      "coverage/**"
+    ]
+  },
+  "devDependencies": {
+    "codeclimate-test-reporter": "0.0.4",
+    "echint": "^1.1.1",
+    "istanbul": "^0.3.14",
+    "mocha": "^2.2.5",
+    "should": "^6.0.3",
+    "standard": "^3.11.1"
+  },
+  "dependencies": {
+    "commander": "^2.8.1",
+    "debug": "^2.2.0"
+  }
+}
