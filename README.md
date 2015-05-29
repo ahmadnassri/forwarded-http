@@ -1,10 +1,12 @@
 # Forwarded HTTP [![version][npm-version]][npm-url] [![License][npm-license]][license-url]
 
-Resolves [RFC 7239](https://tools.ietf.org/html/rfc7239) *(Forwarded HTTP Extension)*, with fallback to all legacy & special Forward headers: `X-Forwarded-*`, `X-Real-*`, `Fastly-Client-IP`, `X-Cluster-Client-IP`, and others.
+> Resolves [RFC 7239](https://tools.ietf.org/html/rfc7239) *(Forwarded HTTP Extension)*, with fallback to all legacy & special Forward headers: `X-Forwarded-*`, `X-Real-*`, `Fastly-Client-IP`, `X-Cluster-Client-IP`, and others.
 
 Focuses on resolving to the RFC standard and providing a consistent access to HTTP Forwarded Parameters: `by`, `for`, `host`, `proto`.
 
 Filter valid IPv4 or IPv6 IPs against glob pattern, array, string, regexp or matcher function.
+
+Use as Express Middleware to populate `req.forwarded` object.
 
 [![Build Status][travis-image]][travis-url]
 [![Downloads][npm-downloads]][npm-url]
@@ -96,6 +98,28 @@ Array of IP addresses the client is connected through
 var params = forwarded(req)
 
 params.ips // ['0.0.0.1', '0.0.0.2']
+```
+
+## Middleware
+
+Use as Express Middleware to populate `req.forwarded` object.
+
+### forwarded([options])
+
+```js
+var express = require('express')
+var forwarded = require('forwarded-http/lib/middleware')
+
+var app = express()
+
+// use with default options
+app.use(forwarded())
+
+// or with options
+app.use(forwarded(req, {
+  filter: ['1.0.?.*', '2001:db8:*'],
+  allowPrivate: false
+})
 ```
 
 ## Support
