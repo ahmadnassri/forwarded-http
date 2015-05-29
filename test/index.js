@@ -385,20 +385,20 @@ describe('Forwarded', function () {
       done()
     })
 
-    it('should parse "Forwarded: for=0.0.7.1:8007,For=0.0.7.2:8008,for=FE80::0202:B3FF:FE1E:8329,for=FE80:0000:0000:0000:0202:B3FF:FE1E:8329,for=secret"', function (done) {
-      fixture.headers['forwarded'] = 'for=0.0.7.1:8007,For=0.0.7.2:8008,for=FE80::0202:B3FF:FE1E:8329,for=FE80:0000:0000:0000:0202:B3FF:FE1E:8329,for=secret'
+    it('should parse "Forwarded: for=0.0.7.1:8007,For=0.0.7.2:8008,for=1::8,for=1::8,for=secret"', function (done) {
+      fixture.headers['forwarded'] = 'for=0.0.7.1:8007,For=0.0.7.2:8008,for=1::7,for=1::8,for=secret'
 
       var params = forwarded(fixture)
 
       params.port.should.equal('8000')
       params.ports.should.eql(['8000', '8007', '8008'])
-      params.ips.should.eql(['0.0.0.0', '0.0.7.1', '0.0.7.2', 'FE80::0202:B3FF:FE1E:8329', 'FE80:0000:0000:0000:0202:B3FF:FE1E:8329', 'secret'])
+      params.ips.should.eql(['0.0.0.0', '0.0.7.1', '0.0.7.2', '1::7', '1::8'])
       params.for.should.eql({
         '0.0.0.0': '8000',
         '0.0.7.1': '8007',
         '0.0.7.2': '8008',
-        'FE80::0202:B3FF:FE1E:8329': '8000',
-        'FE80:0000:0000:0000:0202:B3FF:FE1E:8329': '8000',
+        '1::7': '8000',
+        '1::8': '8000',
         'secret': '8000'
       })
 
@@ -440,7 +440,7 @@ describe('Forwarded', function () {
 
       var params = forwarded(fixture)
 
-      params.ips.should.eql(['0.0.0.0', 'secret'])
+      params.ips.should.eql(['0.0.0.0'])
       params.for.should.eql({ '0.0.0.0': '8000', secret: '8000' })
 
       done()
@@ -448,8 +448,25 @@ describe('Forwarded', function () {
   })
 
   describe('IP Filtering', function () {
-    it('should parse "Forwarded: for=0.0.8.1, for=0.0.8.2, for=2001:db8:cafe::17"', function (done) {
-      fixture.headers['forwarded'] = 'for=0.0.8.1, for=0.0.8.2, for=2001:db8:cafe::17'
+    it('should list only valid IPv4 & IPv6 addresses', function (done) {
+      fixture.headers['forwarded'] = 'for=0.0.8.1, for=private, for=0.0.8.2, for=1::8'
+
+      var params = forwarded(fixture)
+
+      params.ips.should.eql(['0.0.0.0', '0.0.8.1', '0.0.8.2', '1::8'])
+      params.for.should.eql({
+        '1::8': '8000',
+        '0.0.0.0': '8000',
+        '0.0.8.1': '8000',
+        '0.0.8.2': '8000',
+        'private': '8000'
+      })
+
+      done()
+    })
+
+    it('should parse list only approved IPv4 addresses', function (done) {
+      fixture.headers['forwarded'] = 'for=0.0.8.1, for=private, for=0.0.8.2, for=1::8'
 
       var params = forwarded(fixture, {
         filter: ['0.0.8.*']
@@ -461,13 +478,36 @@ describe('Forwarded', function () {
         '0.0.8.2': '8000'
       })
 
-      params = forwarded(fixture, {
-        filter: ['2001:db8:*']
+      done()
+    })
+
+    it('should parse list only approved IPv6 addresses', function (done) {
+      fixture.headers['forwarded'] = 'for=0.0.8.1, for=private, for=0.0.8.2, for=1::8'
+
+      var params = forwarded(fixture, {
+        filter: ['1::*']
       })
 
-      params.ips.should.eql(['2001:db8:cafe::17'])
+      params.ips.should.eql(['1::8'])
       params.for.should.eql({
-        '2001:db8:cafe::17': '8000'
+        '1::8': '8000'
+      })
+
+      done()
+    })
+
+    it('should list only public addresses', function (done) {
+      fixture.headers['forwarded'] = 'for=127.0.0.1, for=0.0.8.1, for=1::8'
+
+      var params = forwarded(fixture, {
+        allowPrivate: false
+      })
+
+      params.ips.should.eql(['0.0.0.0', '0.0.8.1', '1::8'])
+      params.for.should.eql({
+        '1::8': '8000',
+        '0.0.0.0': '8000',
+        '0.0.8.1': '8000'
       })
 
       done()

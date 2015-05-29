@@ -4,6 +4,8 @@ Resolves [RFC 7239](https://tools.ietf.org/html/rfc7239) *(Forwarded HTTP Extens
 
 Focuses on resolving to the RFC standard and providing a consistent access to HTTP Forwarded Parameters: `by`, `for`, `host`, `proto`.
 
+Filter valid IPv4 or IPv6 IPs against glob pattern, array, string, regexp or matcher function.
+
 [![Build Status][travis-image]][travis-url]
 [![Downloads][npm-downloads]][npm-url]
 [![Code Climate][codeclimate-quality]][codeclimate-url]

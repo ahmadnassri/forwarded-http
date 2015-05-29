@@ -53,6 +53,8 @@
   "dependencies": {
     "commander": "^2.8.1",
     "debug": "^2.2.0",
-    "ip-filter": "^1.0.0"
+    "ip": "^0.3.2",
+    "ip-filter": "^1.0.0",
+    "ip-port-regex": "^1.0.0"
   }
 }
