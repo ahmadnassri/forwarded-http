@@ -31,6 +31,11 @@ var params = forwarded(req)
 var filteredParams = forwarded(req, {
   filter: ['1.0.?.*', '2001:db8:*']
 })
+
+// don't list private IPs
+var filteredParams = forwarded(req, {
+  allowPrivate: false
+})
 ```
 
 ### `.port`
