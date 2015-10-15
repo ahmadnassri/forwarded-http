@@ -43,17 +43,17 @@
     ]
   },
   "devDependencies": {
-    "codeclimate-test-reporter": "0.0.4",
+    "codeclimate-test-reporter": "0.1.1",
     "echint": "^1.1.1",
     "istanbul": "^0.3.14",
     "mocha": "^2.2.5",
-    "should": "^6.0.3",
+    "should": "^7.1.0",
     "standard": "^5.0.0"
   },
   "dependencies": {
     "commander": "^2.8.1",
     "debug": "^2.2.0",
-    "ip": "^0.3.2",
+    "ip": "^1.0.1",
     "ip-filter": "^1.0.0",
     "ip-port-regex": "^1.0.0"
   }
