@@ -23,7 +23,7 @@ describe('Forwarded', function () {
   it('should throw an exception when invalid request is passed', function (done) {
     var params
 
-    /*eslint-disable no-extra-parens */
+    /*eslint-disable no-wrap-func */
     (function () {
       params = forwarded({})
     }).should.throw('a request of type: "http.IncomingMessage" is required')

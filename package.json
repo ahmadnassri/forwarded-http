@@ -35,7 +35,7 @@
     "test": "mocha",
     "posttest": "npm run coverage",
     "coverage": "istanbul cover --dir coverage _mocha -- -R dot",
-    "codeclimate": "codeclimate < coverage/lcov.info"
+    "codeclimate": "codeclimate-test-reporter < coverage/lcov.info"
   },
   "echint": {
     "ignore": [
@@ -43,17 +43,17 @@
     ]
   },
   "devDependencies": {
-    "codeclimate-test-reporter": "0.1.1",
-    "echint": "^1.1.1",
-    "istanbul": "^0.3.14",
-    "mocha": "^2.2.5",
-    "should": "^7.1.0",
-    "standard": "^5.0.0"
+    "codeclimate-test-reporter": "0.3.1",
+    "echint": "^1.5.3",
+    "istanbul": "^0.4.2",
+    "mocha": "^2.4.5",
+    "should": "^8.2.2",
+    "standard": "^6.0.8"
   },
   "dependencies": {
-    "commander": "^2.8.1",
+    "commander": "^2.9.0",
     "debug": "^2.2.0",
-    "ip": "^1.0.1",
+    "ip": "^1.1.2",
     "ip-filter": "^1.0.0",
     "ip-port-regex": "^1.0.0"
   }
