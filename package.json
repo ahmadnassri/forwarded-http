@@ -48,7 +48,7 @@
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
     "should": "^8.2.2",
-    "standard": "^6.0.8"
+    "standard": "^7.0.0"
   },
   "dependencies": {
     "commander": "^2.9.0",
