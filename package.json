@@ -54,7 +54,7 @@
     "commander": "^2.9.0",
     "debug": "^2.2.0",
     "ip": "^1.1.2",
-    "ip-filter": "^1.0.0",
+    "ip-filter": "^1.0.1",
     "ip-port-regex": "^1.0.0"
   }
 }
