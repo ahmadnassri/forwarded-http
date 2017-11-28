@@ -51,7 +51,7 @@
     "standard": "^10.0.2"
   },
   "dependencies": {
-    "commander": "^2.9.0",
+    "commander": "^2.12.2",
     "debug": "^2.2.0",
     "ip": "^1.1.2",
     "ip-filter": "^2.0.0",
